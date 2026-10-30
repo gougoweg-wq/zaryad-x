@@ -135,12 +135,12 @@ function mark(){const c=$('cross');c.classList.add('hit');setTimeout(()=>c.class
 /* ---------- ввод ---------- */
 const keys={};let live=false;
 addEventListener('keydown',e=>{keys[e.code]=1;if(e.code==='KeyQ')undo();if(e.code==='KeyM'){mutedU=!mutedU}});addEventListener('keyup',e=>keys[e.code]=0);
-addEventListener('mousedown',e=>{if(e.button===0&&document.pointerLockElement)firing=true});addEventListener('mouseup',()=>firing=false);
-addEventListener('mousemove',e=>{if(!document.pointerLockElement)return;P.yaw-=e.movementX*.0024;P.pitch=THREE.MathUtils.clamp(P.pitch-e.movementY*.0022,-.75,.6)});
+addEventListener('mousedown',e=>{if(e.button===0&&live)firing=true});addEventListener('mouseup',()=>firing=false);
+addEventListener('mousemove',e=>{if(!live)return;P.yaw-=e.movementX*.0024;P.pitch=THREE.MathUtils.clamp(P.pitch-e.movementY*.0022,-.75,.6)});
 document.addEventListener('pointerlockchange',()=>{live=!!document.pointerLockElement;if(!live&&phase!=='wait'&&!$('ov').hidden===false)overlay('<h1>Пауза</h1>','Продолжить',lock)});
 function lock(){$('ov').hidden=true;$('hud').hidden=false;const r=renderer.domElement.requestPointerLock?.();r?.catch?.(()=>setTimeout(lock,1300));live=true}
 function overlay(html,btn,fn){$('ov').hidden=false;$('box').innerHTML=html+`<button id="go">${btn}</button>`;$('go').onclick=fn}
-function briefing(){startRound();live=false;const first=round===0;overlay(`<h1>Раунд ${round+1}</h1><p>${R0.text}</p><p class="x">x — ${R0.letX}</p>`+(first?`<ol><li>Беги через кристаллы <b>по порядку</b>, слева направо. Так собирается уравнение внизу экрана.</li><li>Посчитай x. Появятся 3 столба с числами: выстрели в верный, и щит босса упадёт.</li><li>Добей босса. Красные боты мешают, отстреливайся.</li></ol><p style="font-size:15px;color:#cfd8ea"><kbd>W A S D</kbd> бег · <kbd>мышь</kbd> прицел · <kbd>клик</kbd> огонь · <kbd>Q</kbd> убрать кристалл · <kbd>M</kbd> звук</p>`:''),'В бой',lock)}
+function briefing(){startRound();live=false;const first=round===0;overlay((matchMedia('(pointer:coarse)').matches?'<p style="color:#ff8a80">Для игры нужен компьютер с клавиатурой и мышью.</p>':'')+`<h1>Раунд ${round+1}</h1><p>${R0.text}</p><p class="x">x — ${R0.letX}</p>`+(first?`<ol><li>Беги через кристаллы <b>по порядку</b>, слева направо. Так собирается уравнение внизу экрана.</li><li>Посчитай x. Появятся 3 столба с числами: выстрели в верный, и щит босса упадёт.</li><li>Добей босса. Красные боты мешают, отстреливайся.</li></ol><p style="font-size:15px;color:#cfd8ea"><kbd>W A S D</kbd> бег · <kbd>мышь</kbd> прицел · <kbd>клик</kbd> огонь · <kbd>Q</kbd> убрать кристалл · <kbd>M</kbd> звук</p>`:''),'В бой',lock)}
 function endGame(won){const rows=log.map(l=>`<li>${l.eq}${l.errs.length?' <span style="color:#ff8a80">(ошибок: '+l.errs.length+')</span>':''}</li>`).join('');overlay(`<h1>${won?'Арена зачищена!':'Ты погиб'}</h1><p>${won?'Все боссы повержены.':'Раунд '+(round+1)+' из '+ROUNDS.length+'.'}</p><ol>${rows}</ol>`,'Заново',()=>{round=0;P.hp=MAXHP;log=[];P.pos.set(0,0,8);briefing()})}
 
 /* ---------- цикл ---------- */

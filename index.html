@@ -1,0 +1,31 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Заряд X</title>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+<style>
+html,body{margin:0;height:100%;background:#0a0c10;color:#eef3ff;font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden;user-select:none}
+canvas{position:fixed;inset:0;display:block}
+#hud{position:fixed;inset:0;pointer-events:none}
+#task{position:absolute;left:16px;top:14px;width:min(440px,44vw);background:#0a0f18cc;border-left:4px solid #ffb02e;padding:10px 14px;font-weight:600;font-size:17px;border-radius:4px;backdrop-filter:blur(4px)}
+#task small{display:block;color:#ffb02e;font-weight:800;margin-top:4px;font-size:14px}
+#goal{position:absolute;top:16px;left:50%;transform:translateX(-50%);background:#ffb02e;color:#14100a;font-weight:900;font-size:18px;padding:7px 16px;border-radius:4px;white-space:nowrap}
+#hp{position:absolute;left:16px;bottom:16px;width:260px;height:16px;background:#0008;border:2px solid #fff4;border-radius:3px}#hp i{display:block;height:100%;background:linear-gradient(90deg,#ff5252,#ffb02e);transition:width .15s}
+#round{position:absolute;right:16px;top:14px;font-weight:900;font-size:18px;text-shadow:0 2px 6px #000}
+#eq{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;gap:6px;align-items:center}
+.s{min-width:64px;height:54px;padding:0 10px;display:grid;place-items:center;background:#0a0f18cc;border:2px dashed #fff4;border-radius:5px;font:800 22px ui-monospace,Menlo,Consolas,monospace;white-space:nowrap}
+.s.f{border:2px solid #29e0ff;color:#7df0ff;background:#06222bcc}
+#eqn{position:absolute;left:50%;bottom:80px;transform:translateX(-50%);font-weight:700;color:#cfd8ea;text-shadow:0 1px 4px #000;font-size:14px}
+#cross{position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px;border:2px solid #fffc;border-radius:50%;box-shadow:0 0 4px #000}#cross:after{content:"";position:absolute;left:10px;top:10px;width:2px;height:2px;background:#fff}
+#cross.hit{border-color:#ff5252;transform:scale(1.35)}
+#hurt{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 55%,#ff1a1acc);opacity:0;transition:opacity .35s}
+#toast{position:absolute;left:50%;top:24%;transform:translateX(-50%);font-weight:900;font-size:30px;text-shadow:0 3px 12px #000;text-align:center;opacity:0;transition:opacity .2s}
+[hidden]{display:none!important}
+#ov{position:fixed;inset:0;display:grid;place-items:center;background:#05070bd9;padding:16px;z-index:5}
+#box{max-width:640px;width:100%;background:#10151f;border:1px solid #fff2;border-top:4px solid #ffb02e;border-radius:6px;padding:24px}
+#box h1{margin:0 0 8px;font-size:30px}#box p{margin:8px 0;font-size:19px;font-weight:600}#box .x{color:#ffb02e;font-weight:800}
+#box ol{margin:10px 0;padding-left:22px;font-size:17px;color:#cfd8ea}#box li{margin:5px 0}
+#box kbd{background:#2a3244;border-radius:3px;padding:1px 7px;font:800 14px ui-monospace,Menlo,monospace}
+#go{margin-top:12px;font:900 19px system-ui,sans-serif;background:#ffb02e;color:#14100a;border:0;border-radius:5px;padding:13px 28px;cursor:pointer}
+#load{height:6px;background:#fff2;border-radius:3px;overflow:hidden;margin-top:12px}#load i{display:block;height:100%;width:0;background:#ffb02e}
+</style></head><body>
+<div id="hud" hidden><div id="task"></div><div id="goal"></div><div id="round"></div><div id="hp"><i></i></div><div id="eqn">Беги через кристаллы по порядку · <b>Q</b> убрать последний</div><div id="eq"></div><div id="cross"></div><div id="hurt"></div><div id="toast"></div></div>
+<div id="ov"><div id="box"><h1>Заряд X</h1><p>Загрузка арены…</p><div id="load"><i></i></div></div></div>
+<script type="module" src="game.js"></script></body></html>
